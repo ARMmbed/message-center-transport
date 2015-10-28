@@ -28,7 +28,7 @@ class MessageCenterTransport
 {
 public:
 
-    bool sendTask(uint16_t port, BlockStatic* block, void (*callback)(void))
+    bool sendTask(uint16_t port, BlockStatic& block, void (*callback)(void))
     {
         bool result = internalSendTask(port, block);
 
@@ -40,13 +40,13 @@ public:
         return result;
     }
 
-    bool sendTask(BlockStatic* block, void (*callback)(void))
+    bool sendTask(BlockStatic& block, void (*callback)(void))
     {
         return sendTask(0, block, callback);
     }
 
     template <typename T>
-    bool sendTask(uint16_t port, BlockStatic* block, T* object, void (T::*member)(void))
+    bool sendTask(uint16_t port, BlockStatic& block, T* object, void (T::*member)(void))
     {
         bool result = internalSendTask(port, block);
 
@@ -59,19 +59,19 @@ public:
     }
 
     template <typename T>
-    bool sendTask(BlockStatic* block, T* object, void (T::*member)(void))
+    bool sendTask(BlockStatic& block, T* object, void (T::*member)(void))
     {
         return sendTask(0, block, object, member);
     }
 
     /*  Register receive callback. */
-    void onReceiveTask(void (*callback)(uint16_t port, SharedPointer<Block> block))
+    void onReceiveTask(void (*callback)(uint16_t port, SharedPointer<BlockStatic> block))
     {
         callbackReceive.attach(callback);
     }
 
     template <typename T>
-    void onReceiveTask(T* object, void (T::*callback)(uint16_t port, SharedPointer<Block> block))
+    void onReceiveTask(T* object, void (T::*callback)(uint16_t port, SharedPointer<BlockStatic> block))
     {
         callbackReceive.attach(object, callback);
     }
@@ -82,10 +82,10 @@ protected:
             callbackReceive()
     {}
 
-    virtual bool internalSendTask(uint16_t port, BlockStatic* block) = 0;
+    virtual bool internalSendTask(uint16_t port, BlockStatic& block) = 0;
 
-    FunctionPointer0<void>                                  callbackSend;
-    FunctionPointer2<void, uint16_t, SharedPointer<Block> > callbackReceive;
+    FunctionPointer0<void>                                        callbackSend;
+    FunctionPointer2<void, uint16_t, SharedPointer<BlockStatic> > callbackReceive;
 };
 
 #endif // __MESSAGE_CENTER_TRANSPORT_H__
