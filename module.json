@@ -1,6 +1,6 @@
 {
   "name": "message-center-transport",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Message Center Transport protocol",
   "keywords": [],
   "author": "Marcus Chang <marcus.chang@arm.com>",
