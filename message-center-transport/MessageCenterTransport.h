@@ -27,6 +27,9 @@ using namespace mbed::util;
 class MessageCenterTransport
 {
 public:
+    typedef enum {
+        MinimumIRQDelay = 10
+    } constants_t;
 
     bool sendTask(uint16_t port, BlockStatic& block, void (*callback)(void))
     {
