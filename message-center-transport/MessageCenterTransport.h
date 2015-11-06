@@ -28,7 +28,8 @@ class MessageCenterTransport
 {
 public:
     typedef enum {
-        MinimumIRQDelay = 10
+        MinimumIRQDelay = 10,
+        TimeoutInMs     = 1000
     } constants_t;
 
     bool sendTask(uint16_t port, BlockStatic& block, void (*callback)(void))
